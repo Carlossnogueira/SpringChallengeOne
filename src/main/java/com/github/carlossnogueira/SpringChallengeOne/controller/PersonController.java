@@ -23,7 +23,7 @@ public class PersonController {
     private final PersonService service;
 
     @PostMapping()
-    public ResponseEntity createPerson(@RequestBody @Valid PersonDto personDto) {
+    public ResponseEntity<String> createPerson(@RequestBody @Valid PersonDto personDto) {
         this.service.createPerson(personDto);
         return ResponseEntity.status(HttpStatus.OK.value()).body("Person created!");
     }

@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonRepository extends JpaRepository<PersonRepository, Long> {
-    Optional<PersonRepository> findByEmail(String email);
+import com.github.carlossnogueira.SpringChallengeOne.domain.Person;
+
+public interface PersonRepository extends JpaRepository<Person, Long> {
+    Optional<Person> findByEmail(String email);
+    Boolean existsByEmail(String email);
 }
