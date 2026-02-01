@@ -1,7 +1,9 @@
 package com.github.carlossnogueira.SpringChallengeOne.filter;
 
 import java.time.Instant;
+import java.util.List;
 
+import com.github.carlossnogueira.SpringChallengeOne.exception.ValidationErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,15 +32,21 @@ public class ExceptionHaldler {
         return ResponseEntity.status(error.getStatus()).body(error);
     }
 
-    // TODO validation exception
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleViolationConstraintException(MethodArgumentNotValidException ex, HttpServletRequest request){
+    public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException ex, HttpServletRequest request){
 
-        ErrorResponse error = ErrorResponse.builder()
+        List<String> messages = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList();
+
+
+        ValidationErrorResponse error = ValidationErrorResponse.builder()
                 .timestamp(Instant.now())
                 .status(400)
                 .error(HttpStatus.BAD_REQUEST)
-                .message(ex.getAllErrors().toString())
+                .messages(messages)
                 .path(request.getRequestURI())
                 .build();
 
