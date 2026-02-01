@@ -16,7 +16,6 @@ Construir uma **API RESTful** para gerenciamento de **Pessoas e Contatos**, apli
 * Boas práticas REST
 * Código limpo e evolutivo
 
-
 ---
 
 ## 🧠 Contexto (Simulação Real)
